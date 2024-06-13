@@ -1,71 +1,97 @@
-using System.Collections;
-using System.Collections.Generic;
+using System;
+using System.Text;
 using System.Linq;
 using UnityEngine;
-
+using TMPro; 
 public class InputManager : MonoBehaviour
 {
     [SerializeField]
     private string _clearPassword;
     [SerializeField]
-    private int _key; 
-    // Start is called before the first frame update
-    void Start()
+    private int _key;
+    [SerializeField]
+    private TMP_InputField _inputField;
+    int userToDumpForInputCounter = 0;
+    private bool programCrash = false;
+    private int deneyCounterr = 0;
+    public charachterController cc; 
+    private void Update()
     {
-        HandleInput(); 
-
-    }
-
-    public bool IsNumberValid() 
-    {
-        int counter = 0; 
-        foreach(char l in _clearPassword) 
+        if (programCrash) 
         {
-            if(IsValidChar(l, counter) == false) 
-            {
-                return false; 
-            }
-            counter++; 
+            Application.Quit(); 
         }
-        return true; 
     }
 
-    void HandleInput() 
+    public bool IsNumberValid()
     {
-        bool valid = IsNumberValid();
-        if (valid) 
+        for (int i = 0; i < _clearPassword.Length; i++)
+        {
+            if (!IsValidChar(_clearPassword[i], i))
+            {
+                Debug.LogError("Number is not valid"); 
+                return false;
+            }
+        }
+        return true;
+    }
+
+    bool HandleInput()
+    {
+        if (IsNumberValid())
         {
             string theNumber = Encrypter.EncryptString(_key, _clearPassword);
             for (int i = 0; i < Utillitys.allowedChars.Length; ++i)
             {
-                string PossibleDecryptedTxt = Decrypter.DecryptString(i, theNumber);
-                if (PossibleDecryptedTxt != "this is not a number!")
+                string possibleDecryptedTxt = Decrypter.DecryptString(i, theNumber);
+                if (possibleDecryptedTxt != "this is not a number!")
                 {
-                    Debug.Log(PossibleDecryptedTxt);
-                    break;
+                    Debug.Log(possibleDecryptedTxt);
+                    return true;
                 }
-
-
             }
         }
+        return false; 
     }
-    public bool IsValidChar(char charToCheck, int charCounter) 
+
+    public bool IsValidChar(char charToCheck, int charCounter)
     {
         if (charCounter != 0 && charToCheck == '+')
         {
-            return false; 
+            return false;
         }
 
-        if (Utillitys.allowedChars.Contains<char>(charToCheck)) 
-        {
-            return true; 
-        }
-        return false;
-        
+        return Utillitys.allowedChars.Contains(charToCheck);
     }
-    // Update is called once per frame
-    void Update()
+
+    public void OnAccept() 
     {
-        
+        _clearPassword = _inputField.text;
+        if (!HandleInput()) 
+        {
+            _inputField.text = String.Empty;
+            userToDumpForInputCounter++; 
+            if(userToDumpForInputCounter >= 3) 
+            {
+                programCrash = true; 
+                throw new System.ArgumentException("Didn't expected you to be this dump...:("); 
+            }
+            Debug.LogError("Wrong Input, try again!"); 
+
+        }
+        Debug.Log("thanks for the nudes"); 
+        //restarte game from position
+    }
+
+    public void OnDeney() 
+    {
+        deneyCounterr++;
+        _inputField.text = "You have " + (3- deneyCounterr) + " attempts left..."; 
+        if(deneyCounterr > 2) 
+        {
+            cc.BlueScreen(); 
+        }
     }
 }
+
+

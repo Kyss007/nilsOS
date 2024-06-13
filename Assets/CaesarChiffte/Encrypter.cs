@@ -1,28 +1,27 @@
+using System.Text;
 using System;
-using UnityEngine;
+using UnityEngine; 
 
 public static class Encrypter
 {
     public static string EncryptString(int key, string secret)
     {
-
-        string encryptedString = "";
+        StringBuilder encryptedString = new StringBuilder();
 
         foreach (char l in secret)
         {
             int curIndex = Array.IndexOf(Utillitys.allowedChars, l);
             if (curIndex == -1)
             {
-                encryptedString += l;
+                encryptedString.Append(l);
                 continue;
             }
             int newIndex = GetNewIndex(curIndex, key);
-            encryptedString += Utillitys.allowedChars[newIndex];
+            encryptedString.Append(Utillitys.allowedChars[newIndex]);
         }
         Debug.Log(encryptedString + " " + secret);
-        return encryptedString;
+        return encryptedString.ToString();
     }
-
 
     public static int GetNewIndex(int index, int key)
     {
@@ -33,5 +32,5 @@ public static class Encrypter
 
 public static class Utillitys
 {
-    public static Char[] allowedChars = { '+', '0', '1', '2', '3', '4', '5', '6', '7', '8', '9'};
+    public static char[] allowedChars = { '+', '0', '1', '2', '3', '4', '5', '6', '7', '8', '9' };
 }

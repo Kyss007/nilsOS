@@ -66,7 +66,15 @@ public class charachterController : MonoBehaviour
     {
         if (collision.CompareTag("spike"))
         {
-            SceneManager.LoadScene("bluescreen");
+
+
+            //Das hier passiert, wenn sie auf ablehnen drückt
+            //SceneManager.LoadScene("bluescreen");
         }
+    }
+
+    public void BlueScreen() 
+    {
+        SceneManager.LoadScene("bluescreen");
     }
 }
