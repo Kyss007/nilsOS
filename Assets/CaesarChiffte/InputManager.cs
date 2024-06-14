@@ -2,7 +2,9 @@ using System;
 using System.Text;
 using System.Linq;
 using UnityEngine;
-using TMPro; 
+using TMPro;
+
+
 public class InputManager : MonoBehaviour
 {
     [SerializeField]
@@ -15,6 +17,7 @@ public class InputManager : MonoBehaviour
     private bool programCrash = false;
     private int deneyCounterr = 0;
     public charachterController cc; 
+    public PhoneNumberValidator phoneNumberValidator;
     private void Update()
     {
         if (programCrash) 
@@ -29,7 +32,7 @@ public class InputManager : MonoBehaviour
         {
             if (!IsValidChar(_clearPassword[i], i))
             {
-                Debug.LogError("Number is not valid"); 
+                Debug.LogError($"Number is not valid: Invalid character '{_clearPassword[i]}' at position {i}");
                 return false;
             }
         }
@@ -41,19 +44,53 @@ public class InputManager : MonoBehaviour
         if (IsNumberValid())
         {
             string theNumber = Encrypter.EncryptString(_key, _clearPassword);
-            for (int i = 0; i < Utillitys.allowedChars.Length; ++i)
+
+            for (int i = 0; i < Utillitys.allowedChars.Length; i++)
             {
                 string possibleDecryptedTxt = Decrypter.DecryptString(i, theNumber);
+                Debug.Log($"Decrypted string: {possibleDecryptedTxt}");
+                Debug.Log($"Trying key {i}: Decrypted string: {possibleDecryptedTxt}");
+
                 if (possibleDecryptedTxt != "this is not a number!")
                 {
-                    Debug.Log(possibleDecryptedTxt);
-                    return true;
+                    if (phoneNumberValidator.ValidatePhoneNumber(possibleDecryptedTxt)) 
+                    {
+                        Debug.Log($"Successful decryption with key {i}: {possibleDecryptedTxt}");
+                        return true;
+                    }
+                    return false;
                 }
             }
         }
-        return false; 
+        return false;
     }
 
+    public void OnAccept()
+    {
+        _clearPassword = _inputField.text;
+        Debug.Log($"Input received: {_clearPassword}");
+
+        if (!HandleInput())
+        {
+            _inputField.text = String.Empty;
+            userToDumpForInputCounter++;
+            if (userToDumpForInputCounter >= 3)
+            {
+                programCrash = true;
+                throw new System.ArgumentException("Didn't expect you to be this dumb...:(");
+            }
+            Debug.LogError("Wrong Input, try again!");
+            return;
+        }
+         Debug.Log("Thanks for the input.");
+        _inputField.text = String.Empty;
+        _clearPassword = String.Empty;
+        // Restart game from position
+        Destroy(cc.Spike); 
+        Time.timeScale = 1;
+        cc.IsDead = false;
+        cc._deathUi.SetActive(false);
+    }
     public bool IsValidChar(char charToCheck, int charCounter)
     {
         if (charCounter != 0 && charToCheck == '+')
@@ -62,28 +99,6 @@ public class InputManager : MonoBehaviour
         }
 
         return Utillitys.allowedChars.Contains(charToCheck);
-    }
-
-    public void OnAccept() 
-    {
-        _clearPassword = _inputField.text;
-        if (!HandleInput()) 
-        {
-            _inputField.text = String.Empty;
-            userToDumpForInputCounter++; 
-            if(userToDumpForInputCounter >= 3) 
-            {
-                programCrash = true; 
-                throw new System.ArgumentException("Didn't expected you to be this dump...:("); 
-            }
-            Debug.LogError("Wrong Input, try again!");
-            return; 
-        }
-        Debug.Log("thanks for the nudes");
-
-        //restarte game from position
-        cc.Spike.SetActive(false); 
-        Time.timeScale = 1;
     }
 
     public void OnDeney() 

@@ -15,10 +15,11 @@ public class charachterController : MonoBehaviour
     public GameObject walk;
     public GameObject jump;
 
-    [SerializeField]
-    private GameObject _deathUi; 
+
+    public GameObject Spike; 
+    public  GameObject _deathUi; 
     private RectTransform rectTransform;
-    public GameObject Spike { private set { Spike = value; } get { return Spike; }  }
+    public bool IsDead = false; 
 
     private void Awake()
     {
@@ -27,12 +28,17 @@ public class charachterController : MonoBehaviour
 
     void Update()
     {
+        if (IsDead)
+        {
+            return; 
+        }
+        
         if(rectTransform.anchoredPosition.y <= groundPos)
         {
             Vector2 newPos = rectTransform.anchoredPosition;
 
             newPos.y = groundPos;
-                
+            
             rectTransform.anchoredPosition = newPos;
 
             isGrounded = true;
@@ -50,6 +56,7 @@ public class charachterController : MonoBehaviour
         {
             rectTransform.anchoredPosition += Vector2.down * gravity * Time.deltaTime;
         }
+   
     }
 
     private void LateUpdate()
@@ -68,11 +75,16 @@ public class charachterController : MonoBehaviour
 
     private void OnTriggerEnter2D(Collider2D collision)
     {
+        if (IsDead)
+        {
+            return; 
+        }
         if (collision.CompareTag("spike"))
         {
             Time.timeScale = 0f;
             _deathUi.SetActive(true);
-            Spike = collision.gameObject; 
+            Spike = collision.gameObject;
+            IsDead = true; 
             //play death ui sound
             //Das hier passiert, wenn sie auf ablehnen drückt
             //SceneManager.LoadScene("bluescreen");

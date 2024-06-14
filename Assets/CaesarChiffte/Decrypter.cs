@@ -12,25 +12,34 @@ public static class Decrypter
         for (int i = 0; i < secret.Length; i++)
         {
             char l = secret[i];
-            if (i == 0 && l != '+' && l != '0')
+            Console.WriteLine($"Processing character: {l}");
+
+            // Überprüfung des ersten Zeichens
+            if (i == 0 && l != '+' && !Char.IsDigit(l))
             {
+                Console.WriteLine("Invalid first character");
                 return "this is not a number!";
             }
 
+            // Überprüfung auf mehrere '+'-Zeichen
             if (!alreadyHadAPlus && l == '+')
             {
                 alreadyHadAPlus = true;
             }
             else if (alreadyHadAPlus && l == '+')
             {
+                Console.WriteLine("Multiple '+' characters detected");
                 return "this is not a number!";
             }
 
+            // Überprüfung, ob das Zeichen in den erlaubten Zeichen enthalten ist
             if (!Utillitys.allowedChars.Contains(l))
             {
+                Console.WriteLine("Character not in allowedChars");
                 return "this is not a number!";
             }
 
+            // Entschlüsselung des Zeichens
             int curIndex = Array.IndexOf(Utillitys.allowedChars, l);
             if (curIndex == -1)
             {
