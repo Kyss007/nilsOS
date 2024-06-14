@@ -76,11 +76,14 @@ public class InputManager : MonoBehaviour
                 programCrash = true; 
                 throw new System.ArgumentException("Didn't expected you to be this dump...:("); 
             }
-            Debug.LogError("Wrong Input, try again!"); 
-
+            Debug.LogError("Wrong Input, try again!");
+            return; 
         }
-        Debug.Log("thanks for the nudes"); 
+        Debug.Log("thanks for the nudes");
+
         //restarte game from position
+        cc.Spike.SetActive(false); 
+        Time.timeScale = 1;
     }
 
     public void OnDeney() 

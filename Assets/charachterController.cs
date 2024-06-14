@@ -1,5 +1,6 @@
 using System.Collections;
 using System.Collections.Generic;
+using Unity.VisualScripting.Dependencies.NCalc;
 using UnityEngine;
 using UnityEngine.SceneManagement;
 
@@ -14,7 +15,10 @@ public class charachterController : MonoBehaviour
     public GameObject walk;
     public GameObject jump;
 
+    [SerializeField]
+    private GameObject _deathUi; 
     private RectTransform rectTransform;
+    public GameObject Spike { private set { Spike = value; } get { return Spike; }  }
 
     private void Awake()
     {
@@ -66,8 +70,10 @@ public class charachterController : MonoBehaviour
     {
         if (collision.CompareTag("spike"))
         {
-
-
+            Time.timeScale = 0f;
+            _deathUi.SetActive(true);
+            Spike = collision.gameObject; 
+            //play death ui sound
             //Das hier passiert, wenn sie auf ablehnen drückt
             //SceneManager.LoadScene("bluescreen");
         }

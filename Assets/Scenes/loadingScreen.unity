@@ -283,11 +283,11 @@ RectTransform:
   m_Children:
   - {fileID: 574399973}
   - {fileID: 1774580159}
-  m_Father: {fileID: 1691101244}
+  m_Father: {fileID: 1920991440}
   m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
   m_AnchorMin: {x: 0.5, y: 0.5}
   m_AnchorMax: {x: 0.5, y: 0.5}
-  m_AnchoredPosition: {x: -126.21413, y: -64.086555}
+  m_AnchoredPosition: {x: -126.21413, y: -44.63671}
   m_SizeDelta: {x: 160, y: 30}
   m_Pivot: {x: 0.5, y: 0.5}
 --- !u!114 &317216720
@@ -1733,11 +1733,11 @@ RectTransform:
   m_ConstrainProportionsScale: 0
   m_Children:
   - {fileID: 1130301485}
-  m_Father: {fileID: 1691101244}
+  m_Father: {fileID: 1920991440}
   m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
   m_AnchorMin: {x: 0.5, y: 0.5}
   m_AnchorMax: {x: 0.5, y: 0.5}
-  m_AnchoredPosition: {x: 0, y: 0}
+  m_AnchoredPosition: {x: 0, y: 19.449844}
   m_SizeDelta: {x: 160, y: 30}
   m_Pivot: {x: 0.5, y: 0.5}
 --- !u!114 &976106396
@@ -2223,11 +2223,11 @@ RectTransform:
   m_ConstrainProportionsScale: 1
   m_Children:
   - {fileID: 800324336}
-  m_Father: {fileID: 1691101244}
+  m_Father: {fileID: 1920991440}
   m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
   m_AnchorMin: {x: 0.5, y: 0.5}
   m_AnchorMax: {x: 0.5, y: 0.5}
-  m_AnchoredPosition: {x: 134.05017, y: -64.086555}
+  m_AnchoredPosition: {x: 134.05017, y: -44.63671}
   m_SizeDelta: {x: 160, y: 30}
   m_Pivot: {x: 0.5, y: 0.5}
 --- !u!114 &1390452136
@@ -2431,6 +2431,7 @@ MonoBehaviour:
   _clearPassword: 
   _key: 4
   _inputField: {fileID: 976106394}
+  cc: {fileID: 1789692381}
 --- !u!114 &1637024631
 MonoBehaviour:
   m_ObjectHideFlags: 0
@@ -2611,9 +2612,7 @@ RectTransform:
   - {fileID: 595606995}
   - {fileID: 2075917163}
   - {fileID: 636570598}
-  - {fileID: 976106395}
-  - {fileID: 317216719}
-  - {fileID: 1390452135}
+  - {fileID: 1920991440}
   m_Father: {fileID: 0}
   m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
   m_AnchorMin: {x: 0, y: 0}
@@ -2885,6 +2884,7 @@ MonoBehaviour:
   isGrounded: 0
   walk: {fileID: 360225359}
   jump: {fileID: 488563138}
+  _deathUi: {fileID: 1920991439}
 --- !u!61 &1789692382
 BoxCollider2D:
   m_ObjectHideFlags: 0
@@ -3029,6 +3029,44 @@ CanvasRenderer:
   m_PrefabAsset: {fileID: 0}
   m_GameObject: {fileID: 1826267014}
   m_CullTransparentMesh: 1
+--- !u!1 &1920991439
+GameObject:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  serializedVersion: 6
+  m_Component:
+  - component: {fileID: 1920991440}
+  m_Layer: 5
+  m_Name: DeathUI
+  m_TagString: Untagged
+  m_Icon: {fileID: 0}
+  m_NavMeshLayer: 0
+  m_StaticEditorFlags: 0
+  m_IsActive: 0
+--- !u!224 &1920991440
+RectTransform:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 1920991439}
+  m_LocalRotation: {x: 0, y: 0, z: 0, w: 1}
+  m_LocalPosition: {x: 0, y: 0, z: 0}
+  m_LocalScale: {x: 1, y: 1, z: 1}
+  m_ConstrainProportionsScale: 0
+  m_Children:
+  - {fileID: 976106395}
+  - {fileID: 317216719}
+  - {fileID: 1390452135}
+  m_Father: {fileID: 1691101244}
+  m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
+  m_AnchorMin: {x: 0.5, y: 0.5}
+  m_AnchorMax: {x: 0.5, y: 0.5}
+  m_AnchoredPosition: {x: 0, y: -19.44985}
+  m_SizeDelta: {x: 447.7663, y: 122.85588}
+  m_Pivot: {x: 0.5, y: 0.5}
 --- !u!1 &2075917162
 GameObject:
   m_ObjectHideFlags: 0
